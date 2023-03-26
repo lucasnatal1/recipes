@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Recipe } from 'src/app/shared/models/recipe.model';
 
 @Component({
@@ -14,13 +14,18 @@ export class RecipeListComponent implements OnInit {
       'https://thebrilliantkitchen.com/wp-content/uploads/2023/02/Crockpot-Keto-Meatloaf-1.jpeg.webp'
     ),
     new Recipe(
-      'A Test Recipe',
-      'This is just a Test',
+      'Another Test Recipe',
+      'This is just another Test',
       'https://thebrilliantkitchen.com/wp-content/uploads/2023/02/Crockpot-Keto-Meatloaf-1.jpeg.webp'
     ),
   ];
+  @Output() recipeSelected = new EventEmitter<Recipe>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  detailRecipe(index: number) {
+    this.recipeSelected.emit(this.recipes[index]);
+  }
 }
