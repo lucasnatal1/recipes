@@ -15,14 +15,16 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <div class="btn-group">
+    <div class="dropdown" appDropdown #r="appDropdown">
       <button type="button" class="btn btn-primary dropdown-toggle">
         Manage Recipe
       </button>
-      <ul class="dropdown-menu">
-        <li><a href="#">To Shopping List</a></li>
-        <li><a href="#">Edit Recipe</a></li>
-        <li><a href="#">Delete Recipe</a></li>
+      <ul class="dropdown-menu" [ngClass]="{'show':r.isOpen}">
+        <li><a href="#" class="dropdown-item">To Shopping List</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a href="#" class="dropdown-item">Edit Recipe</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a href="#" class="dropdown-item">Delete Recipe</a></li>
       </ul>
     </div>
   </div>
