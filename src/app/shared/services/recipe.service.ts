@@ -1,11 +1,11 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { Ingredient } from '../models/ingredient.model';
 import { Recipe } from '../models/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
   private recipes: Recipe[] = [
     new Recipe(
       'A Test Recipe',
@@ -33,5 +33,12 @@ export class RecipeService {
 
   addIngredientsToTheShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  getRecipe(index: number): Recipe {
+    // return this.recipes.find(
+    //   (recipe) => { recipe.id === id }
+    // );
+    return this.recipes[index];
   }
 }

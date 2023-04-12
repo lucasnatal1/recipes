@@ -1,6 +1,8 @@
 <a
-  href="#"
-  class="list-group-item clearfix d-flex align-items-center"
+  style="cursor: pointer;"
+  [routerLink]="[index]"
+  routerLinkActive="border"
+  class="list-group-item clearfix d-flex align-items-center p-2"
 >
   <div class="flex-grow-1">
     <h4 class="list-group-item-heading">{{ recipe?.name }}</h4>
