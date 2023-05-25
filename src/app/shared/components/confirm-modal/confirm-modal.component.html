@@ -1,0 +1,24 @@
+<div class="overlay" (click)="onClick(false)"></div>
+<div class="container">
+  <div class="row">
+    <div class="row">
+        <span class="title">{{ title }}</span>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onClick(false)"></button>
+    </div>
+    <hr />
+    <div class="row">
+        <p>{{ message }}</p>
+    </div>
+    <hr />
+    <div class="row d-flex justify-content-end">
+      <div class="col-2">
+        <button class="btn btn-secondary" (click)="onClick(false)">
+          close
+        </button>
+      </div>
+      <div class="col-3 d-flex justify-content-end pe-0">
+        <button class="btn btn-primary" (click)="onClick(true)">confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

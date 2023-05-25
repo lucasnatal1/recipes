@@ -1,4 +1,14 @@
 .active {
     background-color: aquamarine;
     font-weight: bold;
+    border-radius: 5px;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.navbar-nav > li {
+    padding-right: 20px;
 }

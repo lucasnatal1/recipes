@@ -1,0 +1,41 @@
+.container {
+    position: fixed;
+    padding: 0.5rem;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    border: 1.5px solid #000000;
+    background-color: #ffffff;
+    width: auto;
+    max-width: 500px;
+    height: fit-content;
+    z-index: 1022;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 1021;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 0 0.5rem 1rem;
+    width: fit-content;
+}
+
+.btn-close {
+    position: fixed;
+    left: 93%;
+    top: 8%;
+}
+
+.btn {
+    text-transform: uppercase;
+}

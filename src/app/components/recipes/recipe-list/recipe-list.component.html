@@ -1,6 +1,73 @@
 <div class="row mt-4">
-  <div class="col-12">
+  <div class="col-3">
     <button class="btn btn-success" [routerLink]="['new']">New Recipe</button>
+  </div>
+  <div class="col-3">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="onStoreList()"
+      *ngIf="!savingListFlag"
+      [disabled]="displayAlert || deletingListFlag"
+    >
+      Save List
+    </button>
+    <button
+      class="btn btn-success"
+      type="button"
+      disabled
+      *ngIf="savingListFlag"
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      Saving...
+    </button>
+  </div>
+  <div class="col-6">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter Recipe or Ingredient"
+        aria-label="Recipe's name"
+        aria-describedby="searchRecipe"
+        [(ngModel)]="filterString"
+      />
+      <div class="input-group-append">
+        <span class="input-group-text" id="searchRecipe"
+          ><i class="bi bi-search"></i
+        ></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <button
+      class="btn btn-danger"
+      (click)="onDeleteList()"
+      [disabled]="displayAlert || savingListFlag"
+    >
+      Delete List
+    </button>
+  </div>
+</div>
+<button class="btn btn-danger" type="button" disabled *ngIf="deletingListFlag">
+  <span
+    class="spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+  Deleting...
+</button>
+
+<div class="row d-flex justify-content-center mt-3">
+  <div class="col-12">
+    <ng-template appPlaceholder></ng-template>
   </div>
 </div>
 <hr />
@@ -8,7 +75,7 @@
   <div class="col-12">
     <!-- [recipe]="recipeEl" -->
     <app-recipe-item
-      *ngFor="let recipeEl of recipes; index as i"
+      *ngFor="let recipeEl of recipes | filter : filterString; index as i"
       [index]="i"
     ></app-recipe-item>
   </div>

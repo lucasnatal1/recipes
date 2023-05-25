@@ -7,17 +7,21 @@ import { Ingredient } from '../models/ingredient.model';
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
-  private ingredients: Ingredient[] = [
-    new Ingredient('Apples', 5),
-    new Ingredient('Tomatoes', 10),
-  ];
+  private ingredients: Ingredient[] = [];
+
+  setIngredients(ingredients: Ingredient[]) {
+    this.ingredients = ingredients;
+    this.ingredientsChanged.next(
+      this.ingredients ? this.ingredients.slice() : []
+    );
+  }
 
   getIngredient(index: number): Ingredient {
     return this.ingredients[index];
   }
 
   getIngredients(): Ingredient[] {
-    return this.ingredients.slice();
+    return this.ingredients ? this.ingredients.slice() : [];
   }
 
   addIngredient(ingredient: Ingredient) {
@@ -43,6 +47,7 @@ export class ShoppingListService {
   }
 
   private searchForIngredientIndex(ingredient: Ingredient): number {
+    if (!this.ingredients) return -1;
     let ingredientIndex = this.ingredients.findIndex((i) => {
       return i.name === ingredient.name;
     });
@@ -50,7 +55,8 @@ export class ShoppingListService {
   }
 
   updateIngredient(index: number, newIngredient: Ingredient) {
-    const existingIngredientIndex = this.searchForIngredientIndex(newIngredient);
+    const existingIngredientIndex =
+      this.searchForIngredientIndex(newIngredient);
     if (existingIngredientIndex >= 0 && existingIngredientIndex !== index) {
       this.ingredients[existingIngredientIndex].amount += newIngredient.amount;
       this.ingredients.splice(index, 1);
@@ -62,6 +68,11 @@ export class ShoppingListService {
 
   deleteIngredient(index: number) {
     this.ingredients.splice(index, 1);
+    this.ingredientsChanged.next(this.ingredients.slice());
+  }
+
+  deleteAllIngredients() {
+    this.ingredients = [];
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 }

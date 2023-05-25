@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,6 +15,12 @@ import { DropdownDirective } from './shared/directives/dropdown.directive';
 import { AppRoutingModule } from './shared/router/app-routing.module';
 import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
+import { FilterPipe } from './shared/pipes/filter.pipe';
+import { CustomAlertComponent } from './shared/components/custom-alert/custom-alert.component';
+import { ConfirmModalComponent } from './shared/components/confirm-modal/confirm-modal.component';
+import { PlaceholderDirective } from './shared/directives/placeholder.directive';
+import { AuthComponent } from './components/auth/auth.component';
+import { AuthInterceptorService } from './components/auth/auth.interceptor.service';
 
 @NgModule({
   declarations: [
@@ -27,15 +34,21 @@ import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edi
     ShoppingEditComponent,
     DropdownDirective,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    FilterPipe,
+    CustomAlertComponent,
+    ConfirmModalComponent,
+    PlaceholderDirective,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

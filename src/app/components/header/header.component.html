@@ -20,30 +20,19 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/recipes" routerLinkActive="active">Recipes</a>
+          <a class="nav-link" aria-current="page" routerLink="/recipes" routerLinkActive="active" *ngIf="isAuthenticated">Recipes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/shopping-list" routerLinkActive="active">Shopping List</a>
+          <a class="nav-link" routerLink="/shopping-list" routerLinkActive="active" *ngIf="isAuthenticated">Shopping List</a>
         </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            style="cursor: pointer"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Manage
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" style="cursor: pointer">Save Data</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" style="cursor: pointer">Fetch Data</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/auth" routerLinkActive="active" *ngIf="!isAuthenticated">Authenticate</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
         </li>
       </ul>
     </div>

@@ -9,29 +9,17 @@ import { ShoppingListService } from './shopping-list.service';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'A Test Recipe',
-      'This is just a Test',
-      'https://thebrilliantkitchen.com/wp-content/uploads/2023/02/Crockpot-Keto-Meatloaf-1.jpeg.webp',
-      [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]
-    ),
-    new Recipe(
-      'Another Test Recipe',
-      'This is just another Test',
-      'https://thebrilliantkitchen.com/wp-content/uploads/2023/02/Crockpot-Keto-Meatloaf-1.jpeg.webp',
-      [
-        new Ingredient('Tomato', 10),
-        new Ingredient('Onion', 1),
-        new Ingredient('Garlic', 3),
-      ]
-    ),
-  ];
+  private recipes: Recipe[];
 
   constructor(private shoppingListService: ShoppingListService) {}
 
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
   getRecipes(): Recipe[] {
-    return this.recipes.slice(); //sending a copy, not the reference
+    return this.recipes?.slice(); //sending a copy, not the reference
   }
 
   addIngredientsToTheShoppingList(ingredients: Ingredient[]) {
@@ -57,6 +45,11 @@ export class RecipeService {
 
   deleteRecipe(index: number) {
     this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteAllRecipes() {
+    this.recipes = [];
     this.recipesChanged.next(this.recipes.slice());
   }
 }

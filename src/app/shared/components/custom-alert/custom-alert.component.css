@@ -1,0 +1,46 @@
+.alert p {
+    position: inherit;
+    margin-bottom: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.alert:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 5px;
+    width: 0%;
+    height: 100%;
+}
+
+.alert-success:after {
+    animation: load-success infinite 2s linear;
+}
+
+.alert-danger:after {
+    animation: load-danger infinite 2s linear;
+}
+
+@keyframes load-success {
+    0% {
+        width: 0%;
+        background: #d1e7dd;
+    }
+    100% {
+        width: 100%;
+        background: #badbcc;
+    }
+}
+
+@keyframes load-danger {
+    0% {
+        width: 0%;
+        background: #f8d7da;
+    }
+    100% {
+        width: 100%;
+        background: #f5c2c7;
+    }
+}

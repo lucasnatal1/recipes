@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
           <button class="btn btn-success" type="submit" [disabled]="!f.valid">
             {{ editMode ? "Update" : "Add" }}
           </button>
@@ -45,7 +45,83 @@
             Clear
           </button>
         </div>
+        <div
+          class="col-6 float-end justify-content-end d-flex"
+          *ngIf="!editMode"
+        >
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onFetchList()"
+            *ngIf="!fetchingListFlag"
+            [disabled]="displayAlert || savingListFlag || deletingListFlag"
+          >
+            Load List
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            disabled
+            *ngIf="fetchingListFlag"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Loading...
+          </button>
+          <button
+            class="btn btn-success"
+            type="button"
+            (click)="onStoreList()"
+            *ngIf="!savingListFlag"
+            [disabled]="displayAlert || fetchingListFlag || deletingListFlag"
+          >
+            Save List
+          </button>
+          <button
+            class="btn btn-success"
+            type="button"
+            disabled
+            *ngIf="savingListFlag"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Saving...
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="onDeleteList()"
+            *ngIf="!deletingListFlag"
+            [disabled]="displayAlert || savingListFlag || fetchingListFlag"
+          >
+            Delete List
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            disabled
+            *ngIf="deletingListFlag"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Deleting...
+          </button>
+        </div>
       </div>
     </form>
+  </div>
+</div>
+<div class="row d-flex justify-content-center mt-3">
+  <div class="col-8">
+    <ng-template appPlaceholder></ng-template>
   </div>
 </div>

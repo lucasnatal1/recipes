@@ -42,10 +42,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12" *ngIf="recipeForm.value.imagePath.length !== 0">
           <img
             [src]="recipeForm.value.imagePath"
-            alt="{{ recipeForm.value.name }}"
+            alt="{{ recipeForm.value.imagePath }}"
             class="img-responsive"
             style="max-height: 150px"
           />
