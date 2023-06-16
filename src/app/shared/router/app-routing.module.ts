@@ -1,42 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { RecipeDetailComponent } from 'src/app/components/recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from 'src/app/components/recipes/recipe-edit/recipe-edit.component';
-import { RecipeStartComponent } from 'src/app/components/recipes/recipe-start/recipe-start.component';
-import { RecipesResolverService } from 'src/app/components/recipes/recipes-resolver.service';
-import { RecipesComponent } from 'src/app/components/recipes/recipes.component';
-import { ShoppingListComponent } from 'src/app/components/shopping-list/shopping-list.component';
-import { AuthComponent } from 'src/app/components/auth/auth.component';
-import { AuthGuard } from 'src/app/components/auth/auth.guard';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-  {
-    path: 'recipes',
-    component: RecipesComponent,
-    canActivate: [AuthGuard],
-    children: [
-      { path: '', component: RecipeStartComponent },
-      { path: 'new', component: RecipeEditComponent },
-      {
-        path: ':id',
-        component: RecipeDetailComponent,
-        resolve: [RecipesResolverService],
-      },
-      {
-        path: ':id/edit',
-        component: RecipeEditComponent,
-        resolve: [RecipesResolverService],
-      },
-    ],
-  },
-  { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuard] },
-  { path: 'auth', component: AuthComponent },
+  { path: 'recipes', loadChildren: () => import('../../components/recipes/recipes.module').then(m => m.RecipesModule) }, //lazy loading
+  { path: 'shopping-list', loadChildren: () => import('../../components/shopping-list/shopping-list.module').then(m => m.ShoppingListModule) }, //lazy loading
+  { path: 'auth', loadChildren: () => import('../../components/auth/auth.module').then(m => m.AuthModule) }, //lazy loading
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules})], //preloadingStrategy: PreloadAllModules - preloads all lazy loaded modules after the app has been loaded
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
