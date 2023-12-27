@@ -49,13 +49,14 @@ export class AuthService {
             resData.email,
             resData.localId,
             resData.idToken,
-            +resData.expiresIn
+            +resData.expiresIn,
+            false
           );
         })
       );
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string, remember: boolean) {
     const authData = this.buildRequestData(email, password);
 
     return this.http
@@ -72,16 +73,31 @@ export class AuthService {
             resData.email,
             resData.localId,
             resData.idToken,
-            +resData.expiresIn
+            +resData.expiresIn,
+            remember
           );
         })
       );
   }
 
+  // changePassword(email: string) {
+  //   console.log("resetPasswordInit", email);
+  //   return this.http.post<{ requestType: string; email: string }>(
+  //     this.baseUrl + 'accounts:update?key=' + environment.firebaseAPIKey,
+  //     { requestType: 'PASSWORD_RESET', email: email }
+  //   )
+  //   .pipe(
+  //     catchError(this.handleError),
+  //     tap((response) => {
+  //       console.log("resetPassword", response);
+  //     }));
+  // }
+
   autoLogin() {
     const userData: {
       email: string;
       id: string;
+      remember: boolean;
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
@@ -109,7 +125,31 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
+
+    const userData: {
+      email: string;
+      id: string;
+      remember: boolean;
+      _token: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+
     localStorage.removeItem('userData');
+    localStorage.removeItem('userPreferences');
+
+    const nextWeek = new Date();
+    nextWeek.setDate(new Date().getDate() + 7);
+    if (userData.remember) {
+      localStorage.setItem(
+        'userPreferences',
+        JSON.stringify({
+          email: userData.email,
+          remember: userData.remember,
+          expiration: nextWeek,
+        })
+      );
+    }
+
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -134,13 +174,21 @@ export class AuthService {
     email: string,
     userId: string,
     token: string,
-    expiresIn: number
+    expiresIn: number,
+    remember: boolean
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
     this.autoLogout(expiresIn * 1000); //convert to milliseconds
-    localStorage.setItem('userData', JSON.stringify(user));
+    var storage = {
+      email: email,
+      id: userId,
+      _token: token,
+      _tokenExpirationDate: expirationDate,
+      remember: remember,
+    };
+    localStorage.setItem('userData', JSON.stringify(storage));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -160,5 +208,21 @@ export class AuthService {
         break;
     }
     return throwError(() => new Error(errorMessage));
+  }
+
+  getUserPreferences(): {
+    email: string;
+    remember: boolean;
+  } | null {
+    const userPref: {
+      email: string;
+      remember: boolean;
+      expiration: string;
+    } = JSON.parse(localStorage.getItem('userPreferences'));
+
+    if (!userPref || new Date() > new Date(userPref.expiration)) {
+      return;
+    }
+    return userPref;
   }
 }

@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /* Colors: */
+  /* --unnamed-color-542f3e: #542f3e; */
+  --primary-color: #874b63;
+  --input-bg-color: #f6f6f6;
+  --input-border-color: #999999;
+  --input-txt-color: #666666;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-size: cover;
+  background-position: bottom center;
+  margin: 0;
+}
+
+/* @media (min-width: 35em) {
+  .bg-image-1 {
+    background-image: url(./assets/images/bg-login-1.jpg);
+  }
+  .bg-image-2 {
+    background-image: url(./assets/images/bg-login-2.jpg);
+  }
+  .bg-image-3 {
+    background-image: url(./assets/images/bg-login-3.jpg);
+  }
+  .bg-image-4 {
+    background-image: url(./assets/images/bg-login-4.jpg);
+  }
+  .bg-image-5 {
+    background-image: url(./assets/images/bg-login-5.jpg);
+  }
+} */
+
+.bg-image-1 {
+  background-image: url(./assets/images/bg-login-1.jpg);
+}
+.bg-image-2 {
+  background-image: url(./assets/images/bg-login-2.jpg);
+}
+.bg-image-3 {
+  background-image: url(./assets/images/bg-login-3.jpg);
+}
+.bg-image-4 {
+  background-image: url(./assets/images/bg-login-4.jpg);
+}
+.bg-image-5 {
+  background-image: url(./assets/images/bg-login-5.jpg);
+}
+
+.no-style-btn {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
