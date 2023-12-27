@@ -1,14 +1,51 @@
 .active {
-    background-color: aquamarine;
-    font-weight: bold;
-    border-radius: 5px;
+  background-color: var(--active-menu-bg-color);
+  color: white !important;
 }
 
 .dropdown-menu {
-    right: 0;
-    left: auto;
+  right: 0;
+  left: auto;
 }
 
 .navbar-nav > li {
-    padding-right: 20px;
+  padding-right: 20px;
+}
+
+.header-menu {
+  background-color: var(--primary-color);
+  padding: 0;
+  line-height: 3rem;
+}
+
+.filter-white {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(7476%)
+    hue-rotate(289deg) brightness(105%) contrast(101%);
+}
+
+.container-fluid {
+  padding-inline: clamp(5px, 10vw, 10rem);
+}
+
+ul a {
+  color: white;
+  font-size: 1.125rem;
+}
+ul a:hover {
+  color: white;
+  background-color: var(--active-menu-bg-color);
+}
+
+@media (max-width: 47.9375em) {
+  .container-fluid {
+    padding: 0;
+  }
+
+  li {
+    padding: 0 !important;
+  }
+
+  li a {
+    padding-inline-start: 1rem;
+  }
 }
