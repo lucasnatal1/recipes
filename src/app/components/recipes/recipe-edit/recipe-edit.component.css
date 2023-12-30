@@ -2,3 +2,102 @@ input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
   border: 0.7px darkred solid;
 }
+
+.container-custom {
+  padding: 5rem 2rem 0 2rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: black;
+}
+
+.form-group {
+  margin-block-end: 1rem;
+}
+
+input, textarea {
+  background: var(--input-bg-color);
+  border: 1px solid var(--input-border-color);
+  color: var(--input-txt-color);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* 47.9375em */
+@media (min-width: 768px) {
+  .container-custom {
+    padding-inline-end: clamp(2rem, 10vw, 10rem); 
+  }
+}
+
+.dropdown-menu {
+  --bs-dropdown-min-width: 3.7rem;
+}
+.dropdown-toggle {
+  min-width: 3.5rem;
+  margin-block-start: 1.5rem;
+  background: var(--input-bg-color);
+  border: 1px solid var(--input-border-color);
+}
+.star-btn-dropdown {
+  width: 1.3rem;
+  padding-inline-end: 0.2rem;
+  padding-block-end: 0.3rem;
+}
+.star-dropdown {
+  width: 1rem;
+  padding-inline-start: 0.2rem;
+  padding-block-end: 0.3rem;
+}
+.filter-lgt-grey {
+  filter: invert(90%) sepia(0%) saturate(69%) hue-rotate(268deg) brightness(87%) contrast(80%);
+}
+.filter-yellow {
+  filter: invert(70%) sepia(62%) saturate(1992%) hue-rotate(8deg) brightness(100%) contrast(101%);
+}
+li {
+  text-align: center;
+  line-height: 1rem;
+}
+.w-1 {
+  display: inline-flex;
+  width: 0.7rem;
+  color: #E6B800;
+  font-size: 1rem;
+}
+.signup-btn {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1rem;
+  padding-inline-start: 0.25rem;
+  text-decoration: underline;
+}
+.btn-login {
+  color: white;
+  border-radius: 8px;
+  width: 20%;
+  min-width: 6.25rem;
+  height: 45px;
+  font-size: 1rem;
+}
+
+.name-input {
+  width: 85%;
+}
+@media (min-width: 768px) {
+  .name-input {
+    width: 80%;
+  }
+}
+@media (min-width: 950px) {
+  .name-input {
+    width: 85%;
+  }
+}
+@media (min-width: 1400px) {
+  .name-input {
+    width: 90%;
+  }
+}

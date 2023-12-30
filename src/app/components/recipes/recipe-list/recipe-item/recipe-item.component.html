@@ -4,11 +4,11 @@
   routerLinkActive="border"
   class="list-group-item clearfix d-flex align-items-center p-2"
 >
-  <div class="flex-grow-1">
-    <h4 class="list-group-item-heading">{{ recipe?.name }}</h4>
-    <p class="list-group-item-text">{{ recipe?.description }}</p>
+  <div class="flex-grow-1" style="max-width: 80%;">
+    <h4 class="list-group-item-heading text-truncate">{{ recipe?.name }}</h4>
+    <p class="list-group-item-text text-truncate">{{ recipe?.description }}</p>
   </div>
-  <span class="recipe-img">
+  <span class="recipe-img text-truncate">
     <!-- src="{{ recipe?.imagePath }}" -->
     <img
       [src]="recipe?.imagePath"

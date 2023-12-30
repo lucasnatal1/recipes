@@ -28,6 +28,34 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
+  imageSrc;
+  readFile(event) {
+    if (!(event.target.files && event.target.files[0])) {
+      this.imageSrc = null;
+      return;
+    }
+    const file = event.target.files[0];
+    const fileType = file?.name.split('.').slice(-1);
+    if (fileType != "jpg" && fileType != "jpeg" && fileType != "png") {
+      this.imageSrc = null;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = (e) => {
+      this.imageSrc = reader.result;
+
+      this.recipeForm.patchValue({
+        imagePath: reader.result
+      });
+    };
+    // if (this.file?.name.split('.').slice(-1) != "jpg") {
+    //   this.file = null;
+    // }
+    //console.log(this.file.name.split('.').slice(-1) != "jpg");
+  }
+
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';

@@ -1,9 +1,14 @@
-@media (max-width: 992px) {
-    .recipe-img {
-        display: none;
-    }
+.recipe-img {
+  display: none;
 }
 
 .input-group-append {
-    margin-left: -4px !important;
+  margin-left: -4px !important;
+}
+
+/* 47.9375em */
+@media (min-width: 768px) {
+  .recipe-img {
+    display: block;
+  }
 }

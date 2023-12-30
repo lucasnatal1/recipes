@@ -7,6 +7,14 @@
   .container-fluid {
     padding-inline: clamp(5px, 10vw, 10rem);
   }
+
+  ul li {
+    margin-inline: 0.5rem;
+  }
+
+  ul li:last-child {
+    margin-inline-end: 0;
+  }
 }
 
 .header-menu {
