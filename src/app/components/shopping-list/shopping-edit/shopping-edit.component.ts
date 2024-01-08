@@ -75,30 +75,30 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   onStoreList() {
     this.savingListFlag = true;
-    this.storageService.storeShoppingList().subscribe(
-      (res) => {
+    this.storageService.storeShoppingList().subscribe({
+      next: () => {
         this.showAlert(true, 'List was saved!');
         this.savingListFlag = false;
       },
-      (error) => {
+      error: () => {
         this.showAlert(false, 'Error saving list!');
         this.savingListFlag = false;
       }
-    );
+    });
   }
 
   onFetchList() {
     this.fetchingListFlag = true;
-    this.storageService.fetchShoppingList().subscribe(
-      (res) => {
+    this.storageService.fetchShoppingList().subscribe({
+      next: () => {
         this.showAlert(true, 'List was loaded!');
         this.fetchingListFlag = false;
       },
-      (error) => {
+      error: () => {
         this.showAlert(false, 'Error loading list!');
         this.fetchingListFlag = false;
       }
-    );
+    });
   }
 
   onDeleteList() {
