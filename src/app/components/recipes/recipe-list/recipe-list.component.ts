@@ -41,16 +41,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   onStoreList() {
     this.savingListFlag = true;
-    this.storageService.storeRecipes().subscribe(
-      (res) => {
+    this.storageService.storeRecipes().subscribe({
+      next: () => {
         this.showAlert(true, 'List was saved!');
         this.savingListFlag = false;
       },
-      (error) => {
+      error: () => {
         this.showAlert(false, 'Error saving list!');
         this.savingListFlag = false;
       }
-    );
+    });
   }
 
   onDeleteList() {
@@ -74,16 +74,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   private onConfirmDeletion() {
     this.deletingListFlag = true;
-    this.storageService.deleteRecipes().subscribe(
-      (res) => {
+    this.storageService.deleteRecipes().subscribe({
+      next: () => {
         this.showAlert(true, 'List was deleted!');
         this.deletingListFlag = false;
       },
-      (error) => {
+      error: () => {
         this.showAlert(false, 'Error deleting list!');
         this.deletingListFlag = false;
       }
-    );
+    });
   }
 
   showAlert(success: boolean, alertMessage: string) {

@@ -62,18 +62,18 @@ export class AuthComponent implements OnInit, OnDestroy {
       authObs = this.authService.signup(email, password)
     }
 
-    authObs.subscribe(
-      (response) => {
-        console.log(response);
+    authObs.subscribe({
+      next: (response) => {
+        //console.log(response);
         this.isLoading = false;
         this.router.navigate(['/recipes']);
       },
-      (error) => {
-        console.log(error);
+      error: (error) => {
+        //console.log(error);
         this.showAlert(false, error.message);
         this.isLoading = false;
       }
-    );
+    });
 
     form.reset();
   }

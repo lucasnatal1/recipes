@@ -122,16 +122,16 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   private onConfirmDeletion() {
     this.deletingListFlag = true;
-    this.storageService.deleteShoppingList().subscribe(
-      (res) => {
+    this.storageService.deleteShoppingList().subscribe({
+      next: () => {
         this.showAlert(true, 'List was deleted!');
         this.deletingListFlag = false;
       },
-      (error) => {
+      error: () => {
         this.showAlert(false, 'Error deleting list!');
         this.deletingListFlag = false;
       }
-    );
+    });
   }
 
   showAlert(success: boolean, alertMessage: string) {
