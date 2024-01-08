@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Ingredient } from '../models/ingredient.model';
 import { Recipe } from '../models/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
@@ -11,7 +12,10 @@ export class RecipeService {
 
   private recipes: Recipe[];
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private http: HttpClient
+  ) {}
 
   setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
@@ -51,5 +55,11 @@ export class RecipeService {
   deleteAllRecipes() {
     this.recipes = [];
     this.recipesChanged.next(this.recipes.slice());
+  }
+
+  getDefaultImage() {
+    return this.http.get('../../../assets/images/default-img-recipe.png', {
+      responseType: 'blob',
+    });
   }
 }

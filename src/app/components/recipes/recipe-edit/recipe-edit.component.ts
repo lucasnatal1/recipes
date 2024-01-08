@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -13,11 +13,16 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+  imageSrc: string | ArrayBuffer;
+  rating: number;
+  innerWidth: number;
+  breakIngredientLine: boolean;
+  ingredientsUnit = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
   ) {}
 
   ngOnInit(): void {
@@ -26,10 +31,32 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = params['id'] != null;
       this.initForm();
     });
+
+    if (!this.editMode) {
+      this.recipeService.getDefaultImage().subscribe(img => {
+        this.readFile(img);
+      });
+    }
+
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth < 500 || (this.innerWidth >= 768 && this.innerWidth < 1000)) {
+      this.breakIngredientLine = true;
+    } else {
+      this.breakIngredientLine = false;
+    }
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth < 500 || (this.innerWidth >= 768 && this.innerWidth < 1000)) {
+      this.breakIngredientLine = true;
+    } else {
+      this.breakIngredientLine = false;
+    }
   }
 
-  imageSrc;
-  readFile(event) {
+  validateFile(event) {
     if (!(event.target.files && event.target.files[0])) {
       this.imageSrc = null;
       return;
@@ -40,7 +67,10 @@ export class RecipeEditComponent implements OnInit {
       this.imageSrc = null;
       return;
     }
+    this.readFile(file);
+  }
 
+  readFile(file: Blob) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = (e) => {
@@ -50,14 +80,25 @@ export class RecipeEditComponent implements OnInit {
         imagePath: reader.result
       });
     };
-    // if (this.file?.name.split('.').slice(-1) != "jpg") {
-    //   this.file = null;
-    // }
-    //console.log(this.file.name.split('.').slice(-1) != "jpg");
+  }
+
+  dropdownChange(r: number) {
+    this.rating = r;
+    this.recipeForm.patchValue({
+      rating: this.rating
+    });
+  }
+
+  dropdownIngredientChange(index: number, unit: string) {
+    this.ingredientsUnit[index] = unit;
+    (<FormArray>this.recipeForm.get('ingredients')).at(index).patchValue({
+      unit: this.ingredientsUnit[index]
+    });
   }
 
   private initForm() {
     let recipeName = '';
+    let recipeRating = 0;
     let recipeImagePath = '';
     let recipeDescription = '';
     let recipeIngredients = new FormArray([]);
@@ -65,10 +106,14 @@ export class RecipeEditComponent implements OnInit {
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
       recipeName = recipe.name;
+      recipeRating = recipe.rating;
+      this.rating = recipe.rating;
       recipeImagePath = recipe.imagePath;
+      this.imageSrc = recipe.imagePath;
       recipeDescription = recipe.description;
       if (recipe.ingredients) {
         for (let ingredient of recipe.ingredients) {
+          this.ingredientsUnit.push(ingredient.unit);
           recipeIngredients.push(
             new FormGroup({
               name: new FormControl(ingredient.name, Validators.required),
@@ -76,6 +121,7 @@ export class RecipeEditComponent implements OnInit {
                 Validators.required,
                 Validators.pattern(/^[1-9]+[0-9]*$/),
               ]),
+              unit: new FormControl(ingredient.unit, Validators.required),
             })
           );
         }
@@ -84,7 +130,8 @@ export class RecipeEditComponent implements OnInit {
 
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
-      imagePath: new FormControl(recipeImagePath, Validators.required),
+      rating: new FormControl(recipeRating, Validators.required),
+      imagePath: new FormControl(recipeImagePath),
       description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients,
     });
@@ -104,13 +151,15 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onAddIngredient() {
+    this.ingredientsUnit.push(null);
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
         amount: new FormControl(null, [
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/),
+          Validators.pattern(/^(0|[1-9]\d*)((\.|\/|\,)\d+)?$/),
         ]),
+        unit: new FormControl(null, Validators.required),
       })
     );
   }
@@ -120,6 +169,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onDeleteIngredient(index: number) {
+    this.ingredientsUnit.splice(index, 1);
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 }

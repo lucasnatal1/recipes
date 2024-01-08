@@ -13,7 +13,8 @@
             />
           </div>
 
-          <div class="dropdown" style="width: max-content">
+          <!-- TODO:: CRIAR COMPONENTE PARA O DROPDOWN -->
+          <div class="dropdown" id="rating-dropdown">
             <button
               class="btn dropdown-toggle"
               type="button"
@@ -21,14 +22,57 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <img
+              <img *ngIf="rating == null"
                 src="../../../../assets/images/icon-star.svg"
                 alt="Logo"
                 class="star-btn-dropdown filter-lgt-grey"
               />
+
+              <span class="w-1" *ngIf="rating == 5">5</span>
+                <img *ngIf="rating == 5"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="star-dropdown filter-yellow"
+                />
+
+                <span class="w-1" *ngIf="rating == 4">4</span>
+                <img *ngIf="rating == 4"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="star-dropdown filter-yellow"
+                />
+
+                <span class="w-1" *ngIf="rating == 3">3</span>
+                <img *ngIf="rating == 3"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="star-dropdown filter-yellow"
+                />
+
+                <span class="w-1" *ngIf="rating == 2">2</span>
+                <img *ngIf="rating == 2"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="star-dropdown filter-yellow"
+                />
+
+                <span class="w-1" *ngIf="rating == 1">1</span>
+                <img *ngIf="rating == 1"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="star-dropdown filter-yellow"
+                />
+
+                <img *ngIf="rating === 0"
+                  src="../../../../assets/images/icon-star.svg"
+                  alt="Logo"
+                  class="filter-lgt-grey"
+                  style="width: 1rem"
+                />
+
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
+              <li (click)="dropdownChange(5)">
                 <span class="w-1">5</span>
                 <img
                   src="../../../../assets/images/icon-star.svg"
@@ -36,8 +80,8 @@
                   class="star-dropdown filter-yellow"
                 />
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
+              <li><hr class="dropdown-divider"></li>
+              <li (click)="dropdownChange(4)">
                 <span class="w-1">4</span>
                 <img
                   src="../../../../assets/images/icon-star.svg"
@@ -45,8 +89,8 @@
                   class="star-dropdown filter-yellow"
                 />
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
+              <li><hr class="dropdown-divider"></li>
+              <li (click)="dropdownChange(3)">
                 <span class="w-1">3</span>
                 <img
                   src="../../../../assets/images/icon-star.svg"
@@ -54,8 +98,8 @@
                   class="star-dropdown filter-yellow"
                 />
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
+              <li><hr class="dropdown-divider"></li>
+              <li (click)="dropdownChange(2)">
                 <span class="w-1">2</span>
                 <img
                   src="../../../../assets/images/icon-star.svg"
@@ -63,8 +107,8 @@
                   class="star-dropdown filter-yellow"
                 />
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
+              <li><hr class="dropdown-divider"></li>
+              <li (click)="dropdownChange(1)">
                 <span class="w-1">1</span>
                 <img
                   src="../../../../assets/images/icon-star.svg"
@@ -72,8 +116,8 @@
                   class="star-dropdown filter-yellow"
                 />
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
+              <li><hr class="dropdown-divider"></li>
+              <li (click)="dropdownChange(0)">
                 <img
                   src="../../../../assets/images/icon-star.svg"
                   alt="Logo"
@@ -86,47 +130,17 @@
         </div>
       </div>
 
-      <!-- <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <label for="imagePath">Image URL</label>
-            <input
-              type="text"
-              id="imagePath"
-              class="form-control"
-              formControlName="imagePath"
-            />
-          </div>
-        </div>
-      </div> -->
       <div class="row">
         <div class="col-12">
           <div class="form-group">
             <label for="imagePath">Image</label>
-            <input class="form-control" type="file" id="imagePath" (change)="readFile($event)" accept="image/jpg">
+            <input class="form-control" type="file" id="imagePath" (change)="validateFile($event)" accept="image/jpg">
             <div class="d-flex justify-content-center">
-              <img id="blah" [src]="imageSrc || '../../../assets/images/default-img-recipe.png'" alt="your image" style="width: 15rem; height: 15rem; padding-top: 1rem; object-fit: cover;"/>
+              <img id="preview-image" [src]="imageSrc || '../../../assets/images/default-img-recipe.png'" alt="your image"/>
             </div>
           </div>
         </div>
       </div>
-
-
-
-
-      
-      <!-- <div class="row">
-        <div class="col-12" *ngIf="recipeForm.value.imagePath.length !== 0">
-          <img
-            [src]="recipeForm.value.imagePath"
-            alt="{{ recipeForm.value.imagePath }}"
-            class="img-responsive"
-            style="max-height: 150px"
-          />
-        </div>
-      </div> -->
-
-
 
       <div class="row">
         <div class="col-12">
@@ -143,12 +157,13 @@
         </div>
       </div>
 
-      <div class="row">
+      <!-- SEM QUEBRA DE LINHA VIA JAVASCRIPT -->
+      <div class="row" *ngIf="!breakIngredientLine">
         <div
           class="col-12 d-flex"
           *ngIf="recipeForm.value.ingredients.length > 0"
         >
-          <div class="col-8">
+          <div class="col-7">
             <label>Ingredients</label>
           </div>
           <div class="col-2 ps-3">
@@ -162,20 +177,34 @@
             [formGroupName]="i"
             style="margin-bottom: 1rem;"
           >
-            <div class="col-8">
+            <div class="col-7">
               <input type="text" class="form-control" formControlName="name" />
             </div>
-            <div class="col-3">
-              <input
-                type="number"
-                class="form-control"
-                formControlName="amount"
-              />
+            <div class="col-4">
+
+              <div class="input-group mb-3">
+                <input class="amount" type="text" class="form-control" formControlName="amount" aria-label="amount with unit dropdown button">
+                <button class="btn dropdown-toggle amount-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ingredientsUnit[i] ? ingredientsUnit[i] : 'un'}}</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li (click)="dropdownIngredientChange(i, 'ml')">ml</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li (click)="dropdownIngredientChange(i, 'L')">L</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li (click)="dropdownIngredientChange(i, 'mg')">mg</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li (click)="dropdownIngredientChange(i, 'g')">g</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li (click)="dropdownIngredientChange(i, 'kg')">kg</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li (click)="dropdownIngredientChange(i, 'unit')">unit</li>
+                </ul>
+              </div>
+
+
             </div>
             <div class="col-1" style="padding: 0;">
               <button
-                class="btn"
-                style="background: #EE0000; width: 38px; color: white;"
+                class="btn x-btn"
                 type="button"
                 (click)="onDeleteIngredient(i)"
               >
@@ -184,8 +213,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
+        <div class="col-12">
             <button
               class="no-style-btn signup-btn"
               type="button"
@@ -193,9 +221,68 @@
             >
               + Add ingredient
             </button>
-          </div>
         </div>
       </div>
+      <!-- ------------------------------------------------- -->
+      <!-- COM QUEBRA DE LINHA VIA JAVASCRIPT -->
+      <div class="row" *ngIf="breakIngredientLine">
+        
+        <div class="col-12" formArrayName="ingredients">
+          <div
+            class="row"
+            *ngFor="let ingredientCtrl of controls; let i = index"
+            [formGroupName]="i"
+            style="margin-bottom: 1rem;"
+          >
+            <div class="col-12">
+              <label for="ingredient-name">Ingredient</label>
+              <input id="ingredient-name" type="text" class="form-control" formControlName="name" />
+            </div>
+            <div class="col-6">
+              <label for="ingredient-amount">Amount</label>
+              <div id="ingredient-amount" class="input-group mb-3">
+                <input class="amount" type="text" class="form-control" formControlName="amount" aria-label="amount with unit dropdown button">
+                <button class="btn dropdown-toggle amount-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">un</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>ml</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>L</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>mg</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>g</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>kg</li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>unit</li>
+                </ul>
+              </div>
+
+
+            </div>
+            <div class="col-6" style="padding: 1.5rem 0.7rem 0 1rem;">
+              <button
+                class="btn x-btn"
+                type="button"
+                (click)="onDeleteIngredient(i)"
+              >
+                X
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+            <button
+              class="no-style-btn signup-btn"
+              type="button"
+              (click)="onAddIngredient()"
+            >
+              + Add ingredient
+            </button>
+        </div>
+      </div>
+      <!-- ------------------------------------------------- -->
+
       <div class="row">
         <div class="col-12 pt-5 pb-2">
           <button
