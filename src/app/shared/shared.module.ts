@@ -6,11 +6,13 @@ import { CustomAlertComponent } from './components/custom-alert/custom-alert.com
 import { DropdownDirective } from './directives/dropdown.directive';
 import { PlaceholderDirective } from './directives/placeholder.directive';
 import { FilterPipe } from './pipes/filter.pipe';
+import { SortPipe } from './pipes/sort.pipe';
 
 @NgModule({
   declarations: [
     DropdownDirective,
     FilterPipe,
+    SortPipe,
     CustomAlertComponent,
     ConfirmModalComponent,
     PlaceholderDirective,
@@ -19,6 +21,7 @@ import { FilterPipe } from './pipes/filter.pipe';
   exports: [
     DropdownDirective,
     FilterPipe,
+    SortPipe,
     CustomAlertComponent,
     ConfirmModalComponent,
     PlaceholderDirective,

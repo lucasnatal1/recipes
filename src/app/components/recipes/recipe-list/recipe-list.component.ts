@@ -23,6 +23,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   cmpHost!: PlaceholderDirective;
   modalSubscription!: Subscription;
   alertSubscription!: Subscription;
+  sortField: string;
 
   constructor(
     private recipeService: RecipeService,

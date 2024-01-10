@@ -1,4 +1,4 @@
-<div class="conatiner-no-recipe" *ngIf="recipesState == 'none'">
+<div class="container-no-recipe" *ngIf="recipesState == 'none'">
   <div class="txt-no-recipe">You don't have any recipes yet...</div> 
   <button class="no-style-btn no-recipe-btn" (click)="newRecipe()">
     <img
@@ -13,10 +13,10 @@
 
 
 <div class="row" *ngIf="recipesState != 'none'">
-  <div class="col-md-5" [ngClass]="{'d-none-sm': !userInRecipeList}">
+  <div class="col-md-6" [ngClass]="{'d-none-sm': !userInRecipeList}">
     <app-recipe-list></app-recipe-list>
   </div>
-  <div class="col-md-7" [ngClass]="{'d-none-sm': userInRecipeList}">
+  <div id="recipe-detail-container" class="col-md-6" [ngClass]="{'d-none-sm': userInRecipeList}">
     <router-outlet></router-outlet>
   </div>
 </div>

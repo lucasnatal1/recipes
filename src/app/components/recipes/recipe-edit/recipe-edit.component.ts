@@ -15,6 +15,7 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   imageSrc: string | ArrayBuffer;
   rating: number;
+  dtC: Date;
   innerWidth: number;
   breakIngredientLine: boolean;
   ingredientsUnit = [];
@@ -111,6 +112,7 @@ export class RecipeEditComponent implements OnInit {
       recipeImagePath = recipe.imagePath;
       this.imageSrc = recipe.imagePath;
       recipeDescription = recipe.description;
+      this.dtC = recipe.dtCreated;
       if (recipe.ingredients) {
         for (let ingredient of recipe.ingredients) {
           this.ingredientsUnit.push(ingredient.unit);
@@ -130,6 +132,7 @@ export class RecipeEditComponent implements OnInit {
 
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
+      dtCreated: new FormControl(this.dtC ? this.dtC : new Date()),
       rating: new FormControl(recipeRating, Validators.required),
       imagePath: new FormControl(recipeImagePath),
       description: new FormControl(recipeDescription, Validators.required),
