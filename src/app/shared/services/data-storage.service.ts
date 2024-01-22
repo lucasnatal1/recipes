@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 
-import { RecipeService } from './recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
 import { Ingredient } from '../models/ingredient.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
@@ -14,40 +14,39 @@ export class DataStorageService {
 
   constructor(
     private http: HttpClient,
-    private recipeService: RecipeService,
     private shoppingListService: ShoppingListService,
   ) {}
 
-  storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
-    return this.http.put(this._baseUrl + '/users/'+ this._uid +'/recipes.json', recipes);
+  storeRecipe(recipe) {
+    return this.http.post(environment.firebaseMainURL + '/users/'+ this._uid +'/recipes.json', recipe);
   }
 
   fetchRecipes() {
-    return this.http.get<Recipe[]>(this._baseUrl + '/users/'+ this._uid +'/recipes.json').pipe(
+    return this.http.get<Recipe[]>(environment.firebaseMainURL + '/users/'+ this._uid +'/recipes.json').pipe(
       map((recipes) => {
         if (!recipes) {
           return [];
         }
-        return recipes.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        });
-      }),
-      tap((recipes) => {
-        this.recipeService.setRecipes(recipes);
+        const recipesArray = [];
+        Object.entries(recipes).forEach(entry => {
+          entry[1].id = entry[0];
+          recipesArray.push(entry[1]);
+        })
+        return recipesArray;
       })
     );
   }
 
-  deleteRecipes() {
-    return this.http.delete(this._baseUrl + '/users/'+ this._uid +'/recipes.json').pipe(
-      tap(() => {
-        this.recipeService.deleteAllRecipes();
-      })
-    );
+  updateRecipe(id: string, recipe: Recipe) {
+    return this.http.patch(environment.firebaseMainURL + '/users/'+ this._uid +'/recipes/'+ id +'.json', recipe);
+  }
+
+  deleteRecipe(id: string) {
+    return this.http.delete(environment.firebaseMainURL + '/users/'+ this._uid +'/recipes/'+ id +'.json');
+  }
+
+  deleteAllRecipes() {
+    return this.http.delete(environment.firebaseMainURL + '/users/'+ this._uid +'/recipes.json');
   }
 
   storeShoppingList() {

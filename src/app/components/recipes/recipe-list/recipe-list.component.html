@@ -1,60 +1,18 @@
 <div class="row d-flex justify-content-between" style="margin-top: 2.5rem">
-  <div class="col-3">
+  <div class="col-6">
     <button class="btn btn-login" [routerLink]="['new']">New Recipe</button>
   </div>
-  <div class="col-8 d-flex justify-content-end">
-    <button
-      class="btn btn-login me-3"
-      style="background: #009900"
-      type="button"
-      (click)="onStoreList()"
-      *ngIf="!savingListFlag"
-      [disabled]="displayAlert || deletingListFlag"
-    >
-      Save List
-    </button>
-    <button
-      class="btn btn-login me-3"
-      style="background: #009900"
-      type="button"
-      disabled
-      *ngIf="savingListFlag"
-    >
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span>
-      Saving...
-    </button>
-
+  <div class="col-6 d-flex justify-content-end">
     <button
       class="btn btn-login"
       style="background: #ee0000"
       (click)="onDeleteList()"
-      [disabled]="displayAlert || savingListFlag"
-      *ngIf="!deletingListFlag"
     >
       Delete List
-    </button>
-    <button
-      class="btn btn-login"
-      style="background: #ee0000"
-      type="button"
-      disabled
-      *ngIf="deletingListFlag"
-    >
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span>
-      Deleting...
     </button>
   </div>
 </div>
 
-<!-- ToDo:: INDEX QUEBRA OS FILTROS / SORT -->
 <div class="row mt-4">
   <div class="col-12">
     <input
@@ -65,15 +23,6 @@
       aria-describedby="searchRecipe"
       [(ngModel)]="filterString"
     />
-  </div>
-</div>
-
-<div
-  class="row d-flex justify-content-center"
-  [ngClass]="{ 'mt-3': displayAlert }"
->
-  <div class="col-12">
-    <ng-template appPlaceholder></ng-template>
   </div>
 </div>
 
@@ -119,12 +68,14 @@
     ></i>
   </button>
 </div>
-<!-- END ToDo -->
+
 <div class="row">
   <div class="col-12">
     <app-recipe-item
-      *ngFor="let recipeEl of recipes | sort : sortField | filter : filterString ; index as i"
-      [index]="i"
+      *ngFor="let recipeEl of recipes | filter : filterString | sort : sortField ; index as i"
+      [id]="recipeEl.id"
     ></app-recipe-item>
   </div>
 </div>
+
+<ng-template appPlaceholder></ng-template>

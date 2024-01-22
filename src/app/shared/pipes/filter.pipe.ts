@@ -3,7 +3,7 @@ import { Recipe } from '../models/recipe.model';
 
 @Pipe({
   name: 'filter',
-  // pure: false,
+  //pure: false,
 })
 export class FilterPipe implements PipeTransform {
   transform(items: Recipe[], filterString: string): Recipe[] {
@@ -21,6 +21,9 @@ export class FilterPipe implements PipeTransform {
         .includes(filterString.toLocaleLowerCase());
     });
     for (const item of items) {
+      if (!item.ingredients) {
+        continue;
+      }
       for (const ingredient of item.ingredients) {
         if (
           ingredient.name

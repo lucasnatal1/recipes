@@ -2,21 +2,6 @@
   padding: 0;
 }
 
-/* 47.9375em */
-@media (min-width: 768px) {
-  .container-fluid {
-    padding-inline: clamp(5px, 10vw, 10rem);
-  }
-
-  ul li {
-    margin-inline: 0.5rem;
-  }
-
-  ul li:last-child {
-    margin-inline-end: 0;
-  }
-}
-
 .header-menu {
   background-color: var(--primary-color);
   padding: 0;
@@ -49,4 +34,28 @@ ul a {
 ul a:hover {
   color: white;
   background-color: var(--active-menu-bg-color);
+}
+
+.logo-container {
+  margin-inline-start: clamp(1rem, 6%, 10rem);
+  padding-block: 0.5rem;
+}
+
+/* 47.9375em */
+@media (min-width: 768px) {
+  .container-fluid {
+    padding-inline: clamp(1rem, 6%, 10rem);
+  }
+
+  ul li {
+    margin-inline: 0.5rem;
+  }
+
+  ul li:last-child {
+    margin-inline-end: 0;
+  }
+
+  .logo-container {
+    margin-inline-start: 0;
+  }
 }

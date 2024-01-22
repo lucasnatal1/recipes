@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { RecipeService } from 'src/app/shared/services/recipe.service';
+import { DataStorageService } from 'src/app/shared/services/data-storage.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -10,7 +11,7 @@ import { RecipeService } from 'src/app/shared/services/recipe.service';
   styleUrls: ['./recipe-edit.component.css'],
 })
 export class RecipeEditComponent implements OnInit {
-  id: number;
+  id: string;
   editMode = false;
   recipeForm: FormGroup;
   imageSrc: string | ArrayBuffer;
@@ -24,11 +25,12 @@ export class RecipeEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private recipeService: RecipeService,
+    private dataService: DataStorageService,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
     });
@@ -143,14 +145,22 @@ export class RecipeEditComponent implements OnInit {
   get controls() {
     return (<FormArray>this.recipeForm.get('ingredients')).controls;
   }
-
+  
   onSubmit() {
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      this.dataService.updateRecipe(this.id, this.recipeForm.value).subscribe({
+        next: () => {
+          this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+        },
+        error: e => console.log("updateRecipe Error:", e),
+        complete: () => {
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }
+      });
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
+      this.router.navigate(['../'], { relativeTo: this.route });
     }
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   onAddIngredient() {

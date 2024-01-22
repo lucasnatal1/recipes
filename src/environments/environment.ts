@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   firebaseAPIKey: 'AIzaSyBcI4cQVu0Xlb6pAu0bIZMNyjegNVN05bc',
+  firebaseMainURL: 'https://natal-recipe-book-default-rtdb.firebaseio.com/',
 };
 
 /*

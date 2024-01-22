@@ -23,10 +23,6 @@ label {
   color: black;
 }
 
-.container-custom {
-  padding: 5rem 2rem 0 2rem;
-}
-
 .form-group {
   margin-block-end: 1rem;
 }
@@ -105,12 +101,15 @@ label {
 
 .name-input {
   width: 85%;
+  min-width: 10ch;
+  margin-inline-end: 0.5rem;
 }
 
 .amount-btn {
   background: #E9E9E9;
   border: 1px solid var(--input-border-color);
   border-radius: 0 8px 8px 0 !important;
+  min-width: 3.5rem;
 }
 
 .dropdown {
@@ -123,24 +122,7 @@ label {
   border: 1px solid var(--input-border-color);
   border-radius: 8px;
 }
-/* 47.9375em */
-@media (min-width: 768px) {
-  .container-custom {
-    padding-inline-end: clamp(2rem, 10vw, 10rem); 
-  }
 
-  .name-input {
-    width: 80%;
-  }
-}
-
-@media (min-width: 950px) {
-  .name-input {
-    width: 85%;
-  }
-}
-@media (min-width: 1400px) {
-  .name-input {
-    width: 90%;
-  }
+.dropdown-menu > .clickable {
+  cursor: pointer;
 }

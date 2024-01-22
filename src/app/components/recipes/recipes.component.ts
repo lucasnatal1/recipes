@@ -43,6 +43,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
     this.subscriptionStore = this.storageService
       .fetchRecipes()
       .subscribe((recipes) => {
+        this.recipeService.setRecipes(recipes);
+        this.loading = false;
         this.recipesState = recipes.length > 0 ? 'some' : 'none';
       });
   }

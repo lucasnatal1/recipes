@@ -1,4 +1,42 @@
 .border {
-    border: 1px solid black;
-    border-radius: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
 }
+
+.list-item-container {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  padding: 0.5rem;
+}
+
+img {
+  border-radius: 8px;
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
+}
+
+.star-dropdown {
+  height: 1.2rem;
+  width: 1.1rem;
+  padding-inline-start: 0.1rem;
+  padding-block-end: 0.2rem;
+}
+
+.filter-yellow {
+  filter: invert(70%) sepia(62%) saturate(1992%) hue-rotate(8deg)
+    brightness(100%) contrast(101%);
+}
+
+.filter-lgt-grey {
+  filter: invert(90%) sepia(0%) saturate(69%) hue-rotate(268deg) brightness(87%)
+    contrast(80%);
+}
+
+.w-1 {
+    display: inline-flex;
+    width: 0.7rem;
+    color: #E6B800;
+    font-size: 1rem;
+  }

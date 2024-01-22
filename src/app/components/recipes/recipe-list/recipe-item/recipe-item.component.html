@@ -1,20 +1,68 @@
 <a
   style="cursor: pointer;"
-  [routerLink]="[index]"
+  [routerLink]="[id]"
   routerLinkActive="border"
-  class="list-group-item clearfix d-flex align-items-center p-2"
+  class="list-item-container"
 >
-  <div class="flex-grow-1" style="max-width: 80%;">
-    <h4 class="list-group-item-heading text-truncate">{{ recipe?.name }}</h4>
-    <p class="list-group-item-text text-truncate">{{ recipe?.description }}</p>
+  <div style="margin-right: auto;">
+    <h4 class="text-truncate">{{ recipe?.name }}</h4>
+    <p class="text-truncate">{{ recipe?.description }}</p>
   </div>
-  <span class="recipe-img text-truncate">
-    <!-- src="{{ recipe?.imagePath }}" -->
+
+
+
+  <div class="me-2">
+    <span class="w-1" *ngIf="recipe?.rating == 5">5</span>
+    <img *ngIf="recipe?.rating == 5"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-yellow"
+    />
+
+    <span class="w-1" *ngIf="recipe?.rating == 4">4</span>
+    <img *ngIf="recipe?.rating == 4"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-yellow"
+    />
+
+    <span class="w-1" *ngIf="recipe?.rating == 3">3</span>
+    <img *ngIf="recipe?.rating == 3"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-yellow"
+    />
+
+    <span class="w-1" *ngIf="recipe?.rating == 2">2</span>
+    <img *ngIf="recipe?.rating == 2"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-yellow"
+    />
+
+    <span class="w-1" *ngIf="recipe?.rating == 1">1</span>
+    <img *ngIf="recipe?.rating == 1"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-yellow"
+    />
+
+    <img *ngIf="recipe?.rating === 0"
+      src="../../../../assets/images/icon-star.svg"
+      alt="Logo"
+      class="star-dropdown filter-lgt-grey"
+    />
+  </div>
+
+
+
+
+
+  <div class="recipe-img text-truncate">
     <img
       [src]="recipe?.imagePath"
       alt="{{ recipe?.name }}"
       class="img-responsive"
-      style="max-height: 75px"
     />
-  </span>
+  </div>
 </a>

@@ -5,6 +5,7 @@ import { Ingredient } from '../models/ingredient.model';
 import { Recipe } from '../models/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
 import { HttpClient } from '@angular/common/http';
+import { DataStorageService } from './data-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
@@ -14,12 +15,22 @@ export class RecipeService {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private http: HttpClient
+    private http: HttpClient,
+    private dataService: DataStorageService
   ) {}
 
   setRecipes(recipes: Recipe[]) {
+    console.log("recipes serv", recipes);
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
+  }
+
+  private getIndex(id: string) {
+    for (let i=0; i<this.recipes.length; i++) {
+      if (this.recipes[i].id === id) {
+        return i;
+      }
+    }
   }
 
   getRecipes(): Recipe[] {
@@ -30,31 +41,58 @@ export class RecipeService {
     this.shoppingListService.addIngredients(ingredients);
   }
 
-  getRecipe(index: number): Recipe {
-    // return this.recipes.find(
-    //   (recipe) => { recipe.id === id }
-    // );
-    return this.recipes[index];
+  getRecipe(id: string): Recipe {
+    let recipe: Recipe;
+    this.recipes.forEach(item => {
+      if (item.id === id) {
+        recipe = item
+      }
+    });
+    return recipe;
   }
 
   addRecipe(recipe: Recipe) {
-    this.recipes.push(recipe);
+    this.dataService.storeRecipe(recipe).subscribe({
+      next: (data: {name: string}) => {
+        recipe.id = data.name
+        this.recipes.push(recipe);
+      },
+      error: e => console.log("addRecipe Error:", e),
+      complete: () => {
+        this.recipesChanged.next(this.recipes.slice());
+      }
+    });
+  }
+
+  updateRecipe(id: string, newRecipe: Recipe) {
+    newRecipe.id = id;
+    let i = this.getIndex(id);
+    this.recipes[i] = newRecipe;
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  updateRecipe(index: number, newRecipe: Recipe) {
-    this.recipes[index] = newRecipe;
-    this.recipesChanged.next(this.recipes.slice());
-  }
-
-  deleteRecipe(index: number) {
-    this.recipes.splice(index, 1);
-    this.recipesChanged.next(this.recipes.slice());
+  deleteRecipe(id: string) {
+    this.dataService.deleteRecipe(id).subscribe({
+      next: () => {
+        this.recipes.splice(this.getIndex(id), 1);
+      },
+      error: e => console.log("deleteRecipe Error:", e),
+      complete: () => {
+        this.recipesChanged.next(this.recipes.slice());
+      }
+    });
   }
 
   deleteAllRecipes() {
-    this.recipes = [];
-    this.recipesChanged.next(this.recipes.slice());
+    this.dataService.deleteAllRecipes().subscribe({
+      next: () => {
+        this.recipes = [];
+      },
+      error: e => console.log("deleteAllRecipes Error:", e),
+      complete: () => {
+        this.recipesChanged.next(this.recipes.slice());
+      }
+    });
   }
 
   getDefaultImage() {

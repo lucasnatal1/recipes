@@ -13,10 +13,10 @@
 
 
 <div class="row" *ngIf="recipesState != 'none'">
-  <div class="col-md-6" [ngClass]="{'d-none-sm': !userInRecipeList}">
+  <div class="col-md-6 container-list" [ngClass]="{'d-none-sm': !userInRecipeList}">
     <app-recipe-list></app-recipe-list>
   </div>
-  <div id="recipe-detail-container" class="col-md-6" [ngClass]="{'d-none-sm': userInRecipeList}">
+  <div id="recipe-detail-container" class="col-md-6 container-detail" [ngClass]="{'d-none-sm': userInRecipeList}">
     <router-outlet></router-outlet>
   </div>
 </div>
